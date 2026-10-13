@@ -796,17 +796,6 @@ a:hover { color: var(--terracotta); }
   background: var(--sage-deep);
   color: var(--paper);
   position: relative;
-  overflow: hidden;
-}
-.principles::before {
-  content: "";
-  position: absolute;
-  top: -20%;
-  right: -10%;
-  width: 60%;
-  height: 140%;
-  background: radial-gradient(ellipse at center, rgba(245, 207, 132, 0.08) 0%, transparent 60%);
-  pointer-events: none;
 }
 .principles .eyebrow { color: var(--butter); }
 .principles .eyebrow::before { background: var(--butter); opacity: 0.6; }
@@ -968,18 +957,6 @@ a:hover { color: var(--terracotta); }
   background: var(--terracotta);
   color: var(--paper);
   position: relative;
-  overflow: hidden;
-}
-.voices::before {
-  content: "";
-  position: absolute;
-  top: -200px;
-  left: -200px;
-  width: 600px;
-  height: 600px;
-  background: radial-gradient(circle at center, rgba(245, 207, 132, 0.15) 0%, transparent 60%);
-  filter: blur(40px);
-  pointer-events: none;
 }
 .voices .eyebrow { color: var(--butter); }
 .voices .eyebrow::before { background: var(--butter); }
@@ -1059,17 +1036,6 @@ a:hover { color: var(--terracotta); }
   padding-top: clamp(72px, 8vw, 120px);
   padding-bottom: clamp(72px, 8vw, 120px);
   position: relative;
-  overflow: hidden;
-}
-.stats::before {
-  content: "";
-  position: absolute;
-  bottom: -40%;
-  right: -10%;
-  width: 60%;
-  height: 100%;
-  background: radial-gradient(ellipse at center, rgba(190, 74, 42, 0.15) 0%, transparent 60%);
-  pointer-events: none;
 }
 .stats-grid {
   display: grid;
@@ -1113,18 +1079,6 @@ a:hover { color: var(--terracotta); }
   background: var(--sage-deep);
   color: var(--paper);
   position: relative;
-  overflow: hidden;
-}
-.area::before {
-  content: "";
-  position: absolute;
-  top: -200px;
-  right: -200px;
-  width: 700px;
-  height: 700px;
-  background: radial-gradient(circle at 40% 40%, rgba(190, 74, 42, 0.2) 0%, transparent 60%);
-  filter: blur(60px);
-  pointer-events: none;
 }
 .area .eyebrow { color: var(--butter); }
 .area .eyebrow::before { background: var(--butter); }
@@ -1285,17 +1239,6 @@ a:hover { color: var(--terracotta); }
   border-radius: 24px;
   border: 1px solid var(--sage);
   position: relative;
-  overflow: hidden;
-}
-.enquiry::before {
-  content: "";
-  position: absolute;
-  top: -100px;
-  right: -100px;
-  width: 300px;
-  height: 300px;
-  background: radial-gradient(circle at center, rgba(245, 207, 132, 0.14) 0%, transparent 65%);
-  pointer-events: none;
 }
 .enquiry label { display: block; margin-bottom: 22px; position: relative; z-index: 1; }
 .field-row { display: grid; grid-template-columns: 1fr 1fr; gap: 16px; }
