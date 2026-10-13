@@ -1330,6 +1330,8 @@ a:hover { color: var(--terracotta); }
   transition: border-color 200ms var(--ease-std), box-shadow 200ms var(--ease-std), background 200ms var(--ease-std);
 }
 .enquiry select { appearance: none; background-image: url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' width='12' height='12' viewBox='0 0 12 12'><path d='M3 4.5L6 7.5L9 4.5' stroke='%23FBF4EC' stroke-width='1.5' fill='none' stroke-linecap='round'/></svg>"); background-repeat: no-repeat; background-position: right 16px center; padding-right: 42px; }
+/* Native dropdown list items use the OS popup, not our dark theme - force dark text on light bg so they stay readable */
+.enquiry select option { color: #141210; background: #FBF4EC; font-family: var(--ui); }
 .enquiry input:focus, .enquiry select:focus, .enquiry textarea:focus {
   outline: none;
   border-color: var(--butter);
