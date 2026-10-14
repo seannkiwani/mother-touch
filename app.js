@@ -13,7 +13,8 @@
   // Hero typewriter. Text pre-rendered in HTML as fallback; JS clears and types.
   var reducedMotion = window.matchMedia && window.matchMedia('(prefers-reduced-motion: reduce)').matches;
   var lines = document.querySelectorAll('[data-typewrite] .type-line');
-  if (lines.length && !reducedMotion) {
+  var compactLayout = window.matchMedia && window.matchMedia('(max-width: 820px)').matches;
+  if (lines.length && !reducedMotion && !compactLayout) {
     // Clear text first so caret shows cleanly
     Array.prototype.forEach.call(lines, function (el) { el.textContent = ''; });
     Array.prototype.forEach.call(lines, function (el) {
@@ -42,20 +43,38 @@
   var menuBtn = document.querySelector('.menu-toggle');
   var nav = document.getElementById('nav');
   if (menuBtn && nav) {
+    var mobileMenuQuery = window.matchMedia('(max-width: 920px)');
+    var pageRegions = document.querySelectorAll('main, body > footer');
+    function setMenu(open, restoreFocus) {
+      menuBtn.setAttribute('aria-expanded', String(open));
+      menuBtn.setAttribute('aria-label', open ? 'Close menu' : 'Open menu');
+      document.body.classList.toggle('menu-open', open);
+      Array.prototype.forEach.call(pageRegions, function (region) { region.inert = open; });
+      if (restoreFocus) menuBtn.focus();
+    }
     menuBtn.addEventListener('click', function () {
       var open = menuBtn.getAttribute('aria-expanded') === 'true';
-      menuBtn.setAttribute('aria-expanded', String(!open));
-      menuBtn.setAttribute('aria-label', open ? 'Open menu' : 'Close menu');
-      document.body.classList.toggle('menu-open', !open);
+      setMenu(!open, false);
     });
-    nav.addEventListener('click', function (e) {
-      var target = e.target;
-      if (target && target.tagName === 'A') {
-        menuBtn.setAttribute('aria-expanded', 'false');
-        menuBtn.setAttribute('aria-label', 'Open menu');
-        document.body.classList.remove('menu-open');
+    document.querySelector('.site-header').addEventListener('click', function (e) {
+      if (e.target.closest('a') && document.body.classList.contains('menu-open')) {
+        setMenu(false, true);
       }
     });
+    document.addEventListener('keydown', function (e) {
+      if (!document.body.classList.contains('menu-open')) return;
+      if (e.key === 'Escape') { setMenu(false, true); return; }
+      if (e.key === 'Tab') {
+        var controls = Array.prototype.filter.call(document.querySelectorAll('.site-header a, .site-header button'), function (el) { return el.getClientRects().length > 0; });
+        var first = controls[0];
+        var last = controls[controls.length - 1];
+        if (e.shiftKey && document.activeElement === first) { e.preventDefault(); last.focus(); }
+        else if (!e.shiftKey && document.activeElement === last) { e.preventDefault(); first.focus(); }
+      }
+    });
+    function resetDesktopMenu(e) { if (!e.matches) setMenu(false, false); }
+    if (mobileMenuQuery.addEventListener) mobileMenuQuery.addEventListener('change', resetDesktopMenu);
+    else mobileMenuQuery.addListener(resetDesktopMenu);
   }
 
   // Service pre-fill from service card
@@ -122,7 +141,7 @@
 
   // Scroll reveal
   var reduced = window.matchMedia && window.matchMedia('(prefers-reduced-motion: reduce)').matches;
-  if (!reduced && 'IntersectionObserver' in window) {
+  if (!reduced && !compactLayout && 'IntersectionObserver' in window) {
     var fadeSelectors = [
       '.hero-copy', '.hero-figure',
       '.section-head',
