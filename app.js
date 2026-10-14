@@ -10,26 +10,31 @@
   var yearEl = document.getElementById('year');
   if (yearEl) yearEl.textContent = String(new Date().getFullYear());
 
-  // Hero typewriter. Text pre-rendered in HTML as fallback; JS clears and types.
+  // Type over a full-size text layer so the heading never changes its layout.
   var reducedMotion = window.matchMedia && window.matchMedia('(prefers-reduced-motion: reduce)').matches;
   var lines = document.querySelectorAll('[data-typewrite] .type-line');
   var compactLayout = window.matchMedia && window.matchMedia('(max-width: 820px)').matches;
-  if (lines.length && !reducedMotion && !compactLayout) {
-    // Clear text first so caret shows cleanly
-    Array.prototype.forEach.call(lines, function (el) { el.textContent = ''; });
+  if (lines.length && !reducedMotion) {
     Array.prototype.forEach.call(lines, function (el) {
       var text = el.getAttribute('data-type') || '';
       var delay = parseInt(el.getAttribute('data-type-delay') || '0', 10);
-      var speed = 55;
+      var ink = document.createElement('span');
+      ink.className = 'type-ink';
+      ink.setAttribute('aria-hidden', 'true');
+      el.appendChild(ink);
+      el.classList.add('is-typing');
+      var speed = compactLayout ? 45 : 55;
       setTimeout(function () {
         var i = 0;
         var tick = setInterval(function () {
           if (i >= text.length) {
             clearInterval(tick);
+            ink.remove();
+            el.classList.remove('is-typing');
             el.classList.add('typed');
             return;
           }
-          el.textContent = text.slice(0, ++i);
+          ink.textContent = text.slice(0, ++i);
         }, speed);
       }, delay);
     });
@@ -141,9 +146,8 @@
 
   // Scroll reveal
   var reduced = window.matchMedia && window.matchMedia('(prefers-reduced-motion: reduce)').matches;
-  if (!reduced && !compactLayout && 'IntersectionObserver' in window) {
+  if (!reduced && 'IntersectionObserver' in window) {
     var fadeSelectors = [
-      '.hero-copy', '.hero-figure',
       '.section-head',
       '.svc-feature',
       '.about-figure', '.about-copy',
@@ -177,9 +181,13 @@
           io.unobserve(entry.target);
         }
       });
-    }, { threshold: 0.08, rootMargin: '0px 0px -40px 0px' });
+    }, { threshold: 0.06, rootMargin: '0px 0px -16px 0px' });
 
     Array.prototype.forEach.call(document.querySelectorAll('.reveal, .reveal-tilt, .reveal-scale, .reveal-stagger, .reveal-left, .reveal-right, .reveal-blur'), function (el) {
+      // Animate individual cards, not their container and cards together.
+      if (el.classList.contains('reveal-stagger')) return;
+      el.classList.add('motion-ready');
+      if (el.getBoundingClientRect().top < window.innerHeight - 16) el.classList.add('in');
       io.observe(el);
     });
 
@@ -194,7 +202,7 @@
     ];
     groups.forEach(function (g) {
       Array.prototype.forEach.call(g.items, function (el, i) {
-        el.style.transitionDelay = (i * g.step) + 'ms';
+        el.style.transitionDelay = (compactLayout ? 0 : Math.min(i * g.step, 280)) + 'ms';
       });
     });
   }

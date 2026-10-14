@@ -1231,3 +1231,25 @@ dialog a { color: var(--rose); border-bottom: 1px solid currentColor; }
   .svc p { margin-bottom: 14px; }
   .svc-link { min-height: 44px; align-self: flex-start; }
 }
+
+/* Stable typing: the original text reserves space and stays accessible. */
+.type-line::after { content: none; display: none; }
+.type-line.is-typing { color: transparent; }
+.type-ink { position: absolute; inset: 0; color: var(--ink); pointer-events: none; }
+em.type-line .type-ink { color: var(--rose); }
+.type-ink::after { content: ''; display: inline-block; width: 0.055em; height: 0.78em; margin-left: 0.04em; background: currentColor; animation: caret 0.85s steps(1) infinite; }
+
+/* Content is visible without JavaScript. Only observer-managed elements animate. */
+.reveal, .reveal-tilt, .reveal-scale, .reveal-left, .reveal-right, .reveal-blur, .reveal-stagger > * {
+  opacity: 1; transform: none; filter: none;
+}
+@media (prefers-reduced-motion: no-preference) {
+  .motion-ready { transition: opacity 650ms var(--ease-out), transform 750ms var(--ease-out); }
+  .motion-ready:not(.in) { opacity: 0; transform: translate3d(0, 22px, 0); }
+  .motion-ready.reveal-tilt:not(.in) { transform: perspective(1000px) translate3d(0, 28px, 0) rotateX(7deg); transform-origin: center top; }
+  .motion-ready.in, .motion-ready:focus-within { opacity: 1; transform: perspective(1000px) translate3d(0, 0, 0) rotateX(0); }
+}
+@media (max-width: 820px) and (prefers-reduced-motion: no-preference) {
+  .motion-ready { transition-duration: 500ms, 650ms; }
+  .motion-ready.reveal-tilt:not(.in) { transform: perspective(900px) translate3d(0, 22px, 0) rotateX(5deg); }
+}
