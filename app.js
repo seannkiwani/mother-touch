@@ -10,6 +10,34 @@
   var yearEl = document.getElementById('year');
   if (yearEl) yearEl.textContent = String(new Date().getFullYear());
 
+  // Hero typewriter. Text pre-rendered in HTML as fallback; JS clears and types.
+  var reducedMotion = window.matchMedia && window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+  var lines = document.querySelectorAll('[data-typewrite] .type-line');
+  if (lines.length && !reducedMotion) {
+    // Clear text first so caret shows cleanly
+    Array.prototype.forEach.call(lines, function (el) { el.textContent = ''; });
+    Array.prototype.forEach.call(lines, function (el) {
+      var text = el.getAttribute('data-type') || '';
+      var delay = parseInt(el.getAttribute('data-type-delay') || '0', 10);
+      var speed = 55;
+      setTimeout(function () {
+        var i = 0;
+        var tick = setInterval(function () {
+          if (i >= text.length) {
+            clearInterval(tick);
+            el.classList.add('typed');
+            return;
+          }
+          el.textContent = text.slice(0, ++i);
+        }, speed);
+      }, delay);
+    });
+  } else if (lines.length) {
+    Array.prototype.forEach.call(lines, function (el) {
+      el.classList.add('typed');
+    });
+  }
+
   // Mobile menu
   var menuBtn = document.querySelector('.menu-toggle');
   var nav = document.getElementById('nav');
@@ -132,7 +160,7 @@
       });
     }, { threshold: 0.08, rootMargin: '0px 0px -40px 0px' });
 
-    Array.prototype.forEach.call(document.querySelectorAll('.reveal, .reveal-tilt, .reveal-scale'), function (el) {
+    Array.prototype.forEach.call(document.querySelectorAll('.reveal, .reveal-tilt, .reveal-scale, .reveal-stagger, .reveal-left, .reveal-right, .reveal-blur'), function (el) {
       io.observe(el);
     });
 
