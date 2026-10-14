@@ -14,7 +14,70 @@
   var reducedMotion = window.matchMedia && window.matchMedia('(prefers-reduced-motion: reduce)').matches;
   var lines = document.querySelectorAll('[data-typewrite] .type-line');
   var compactLayout = window.matchMedia && window.matchMedia('(max-width: 820px)').matches;
-  if (lines.length && !reducedMotion) {
+  if (lines.length && !reducedMotion && compactLayout) {
+    // Reveal the original glyphs. No duplicate text, cursor wrapping or final swap.
+    var mobileTimers = [];
+    var mobileFinished = false;
+    function finishMobileTyping() {
+      mobileFinished = true;
+      mobileTimers.forEach(function (timer) { clearTimeout(timer); });
+      Array.prototype.forEach.call(lines, function (el) {
+        el.classList.remove('mobile-typing', 'mobile-caret');
+        el.classList.add('typed');
+        el.style.removeProperty('--typed-width');
+      });
+    }
+    Array.prototype.forEach.call(lines, function (el) {
+      el.style.setProperty('--typed-width', '0px');
+      el.classList.add('mobile-typing');
+    });
+    // A late webfont must never replace glyphs in the middle of the animation.
+    var fontsReady = document.fonts ? Promise.all(Array.prototype.map.call(lines, function (el) {
+      var font = window.getComputedStyle(el);
+      return document.fonts.load(font.fontStyle + ' ' + font.fontWeight + ' ' + font.fontSize + ' ' + font.fontFamily, el.textContent);
+    })).then(function () { return document.fonts.ready; }) : Promise.resolve();
+    var fontDeadline = setTimeout(finishMobileTyping, 1800);
+    fontsReady.then(function () {
+      clearTimeout(fontDeadline);
+      if (mobileFinished) return;
+      Array.prototype.forEach.call(lines, function (el) {
+        var textNode = el.firstChild;
+        var text = el.getAttribute('data-type') || '';
+        var delay = parseInt(el.getAttribute('data-type-delay') || '0', 10);
+        if (!textNode || textNode.nodeType !== 3) { finishMobileTyping(); return; }
+        var range = document.createRange();
+        range.setStart(textNode, 0);
+        var widths = [];
+        for (var n = 1; n <= text.length; n++) {
+          range.setEnd(textNode, n);
+          widths.push(Math.max(0, range.getBoundingClientRect().right - el.getBoundingClientRect().left));
+        }
+        mobileTimers.push(setTimeout(function () {
+          if (mobileFinished) return;
+          el.classList.add('mobile-caret');
+          var index = 0;
+          function typeNext() {
+            if (mobileFinished) return;
+            el.style.setProperty('--typed-width', widths[index++] + 'px');
+            if (index < widths.length) mobileTimers.push(setTimeout(typeNext, 55));
+            else {
+              el.classList.remove('mobile-typing', 'mobile-caret');
+              el.classList.add('typed');
+              el.style.removeProperty('--typed-width');
+            }
+          }
+          typeNext();
+        }, delay));
+      });
+    }, finishMobileTyping);
+    var typingViewportWidth = window.innerWidth;
+    window.addEventListener('resize', function () {
+      // Mobile browser toolbars resize height during normal scrolling.
+      if (window.innerWidth !== typingViewportWidth) finishMobileTyping();
+    });
+    window.addEventListener('pagehide', finishMobileTyping, { once: true });
+    document.addEventListener('visibilitychange', function () { if (document.hidden) finishMobileTyping(); });
+  } else if (lines.length && !reducedMotion) {
     Array.prototype.forEach.call(lines, function (el) {
       var text = el.getAttribute('data-type') || '';
       var delay = parseInt(el.getAttribute('data-type-delay') || '0', 10);
