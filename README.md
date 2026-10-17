@@ -2,6 +2,8 @@
 
 Editorial redesign of the Mother Touch site. Buildless static site, deploys anywhere.
 
+Current source and decisions are recorded in [PROJECT-NOTES.md](PROJECT-NOTES.md), updated 17 October 2026. Those notes supersede older design descriptions below and the original Codex handoff.
+
 ## Run locally
 
 ```bash
@@ -13,11 +15,12 @@ Open http://localhost:8745/
 
 ## Stack
 
-- One HTML page, one CSS file, one JS file
+- Three HTML pages, one shared CSS file, one shared JS file
 - Fraunces (display serif) + Manrope (UI), loaded from Google Fonts
 - No framework, no build step, no tracking
 - Enquiry form prepares a WhatsApp message on the visitor's device. Nothing is sent, stored or emailed by the site itself.
 - Honeypot anti-spam on the form (field name `website`).
+- Optional property, frequency and equipment details feed into the prepared WhatsApp message. Nothing is sent until the visitor sends it in WhatsApp.
 
 ## Design
 

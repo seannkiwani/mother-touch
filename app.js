@@ -182,11 +182,23 @@
         'Service: ' + (data.service || ''),
         'Property size: ' + (data.size || '')
       ];
+      if (data.property_type) lines.push('Property type: ' + data.property_type);
+      if (data.frequency) lines.push('Frequency: ' + data.frequency);
+      if (data.supplies) lines.push('Products and equipment: ' + data.supplies);
       if (data.date) lines.push('Preferred date: ' + data.date);
       if (data.notes) { lines.push(''); lines.push('Notes: ' + data.notes); }
       var text = encodeURIComponent(lines.join('\n'));
       var url = 'https://wa.me/' + WHATSAPP + '?text=' + text;
-      if (status) { status.textContent = 'Opening WhatsApp...'; status.className = 'success'; }
+      if (status) {
+        status.textContent = 'Your message is ready. ';
+        status.className = 'success';
+        var messageLink = document.createElement('a');
+        messageLink.href = url;
+        messageLink.target = '_blank';
+        messageLink.rel = 'noopener noreferrer';
+        messageLink.textContent = 'Open it in WhatsApp';
+        status.appendChild(messageLink);
+      }
       window.open(url, '_blank', 'noopener');
     });
   }
