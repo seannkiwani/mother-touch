@@ -79,3 +79,17 @@ The user explicitly requested the following local changes and will decide whethe
 - New source file: policies.html. No build step is needed.
 
 After reviewing the local version, the user explicitly approved pushing these changes to the live website on 17 October 2026. The sample founder story and proposed policies remain documented as awaiting factual confirmation from the owner.
+
+## Custom domain setup on 26 October 2026
+
+User purchased mothertouchcleaningservices.co.za from GoDaddy and authorised connecting it to the existing live site.
+
+- Confirmed GitHub repository seannkiwani/mother-touch, branch master.
+- Vercel project mother-touch, project ID prj_vdGxhBp4XmZZ5jtjLTfkt30qINuc, team seans-projects-b3351007.
+- Attached both mothertouchcleaningservices.co.za and www.mothertouchcleaningservices.co.za to that project.
+- GoDaddy remains the DNS provider with ns49.domaincontrol.com and ns50.domaincontrol.com.
+- Replaced parked apex A record with 216.198.79.1 and added 64.29.17.1, as recommended by Vercel. TTL 600 seconds.
+- Replaced www CNAME with 99dbff959b71b799.vercel-dns-017.com. TTL 1 hour.
+- Preserved existing _domainconnect and DMARC records. No email service was provisioned.
+- Updated page canonical URLs and social image URLs for the new domain. The existing Vercel deployment remains available.
+- GoDaddy authoritative DNS confirms the two apex A records. At the latest check the co.za parent and public resolvers still returned NXDOMAIN, so public DNS delegation and HTTPS activation were not yet confirmed. Do not claim the domain is live until both HTTPS hostnames load the Mother Touch site successfully.
