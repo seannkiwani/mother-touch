@@ -8,7 +8,7 @@ Updated 17 October 2026. Read this before using older Codex handoff documents.
 
 GitHub: https://github.com/seannkiwani/mother-touch
 
-Branch: `master`. Production: https://mother-touch.vercel.app/
+Branch: `master`. Primary domain: https://mothertouchcleaningservices.co.za/ . Also serves https://www.mothertouchcleaningservices.co.za/ . Original deployment: https://mother-touch.vercel.app/
 
 The earlier `outputs/mother-touch-site` directory and private ChatGPT Sites project are historical, not the current website source or deployment target.
 
@@ -92,4 +92,4 @@ User purchased mothertouchcleaningservices.co.za from GoDaddy and authorised con
 - Replaced www CNAME with 99dbff959b71b799.vercel-dns-017.com. TTL 1 hour.
 - Preserved existing _domainconnect and DMARC records. No email service was provisioned.
 - Updated page canonical URLs and social image URLs for the new domain. The existing Vercel deployment remains available.
-- GoDaddy authoritative DNS confirms the two apex A records. At the latest check the co.za parent and public resolvers still returned NXDOMAIN, so public DNS delegation and HTTPS activation were not yet confirmed. Do not claim the domain is live until both HTTPS hostnames load the Mother Touch site successfully.
+- Final verification: Google and Cloudflare public DNS resolve the new records. Vercel reports configured-correctly and verified for both hostnames. Valid TLS requests to the addresses returned by public DNS served HTTP 200 with Mother Touch content for the homepage, About, Services and Policies pages, plus the www homepage. No certificate validation was disabled. The local network resolver/browser retained an earlier negative DNS cache at the time of verification, so some connections may need time to refresh.
