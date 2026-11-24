@@ -93,3 +93,18 @@ User purchased mothertouchcleaningservices.co.za from GoDaddy and authorised con
 - Preserved existing _domainconnect and DMARC records. No email service was provisioned.
 - Updated page canonical URLs and social image URLs for the new domain. The existing Vercel deployment remains available.
 - Final verification: Google and Cloudflare public DNS resolve the new records. Vercel reports configured-correctly and verified for both hostnames. Valid TLS requests to the addresses returned by public DNS served HTTP 200 with Mother Touch content for the homepage, About, Services and Policies pages, plus the www homepage. No certificate validation was disabled. The local network resolver/browser retained an earlier negative DNS cache at the time of verification, so some connections may need time to refresh.
+
+## Client photography update on 24 November 2026
+
+User supplied nine photos in WhatsApp Unknown 2026-11-24 at 17.39.11.zip and a separate window-cleaning photo. Authorised natural cleanup, suitable replacements and deployment, with the option to revert.
+
+Four selected photos received AI-assisted exposure, colour and clarity edits using the built-in image editing tool. Edited JPEG masters are in assets/img/client-edits/. Responsive WebP derivatives are in assets/img/optimized/ at 480, 800 and 1080 pixels wide. No CSS filters or image-editing runtime is needed in the site.
+
+- 19.20.18 (archive item 02): two-person portrait replaces the old generated hero. Preload and responsive sources updated together.
+- 19.20.44 (item 03): three-person team selfie replaces the bedroom image in homepage About and the About page.
+- 19.21.13 (item 05): wooden door cleaning replaces the old deep-cleaning card photo.
+- 19.22.10 (item 07): office chair cleaning replaces the old office stock photo.
+- Preserved the existing living-room, Airbnb, moving and maid-service imagery because the supplied set has no equally suitable replacement for those slots.
+- Skipped the heavily blurred office frame, duplicate portrait, kitchen image with personal household supplies, and window photos showing a person standing on a sill.
+
+Original uploads remain unchanged in Downloads and extracted source copies are in the Codex task work/client-photos-2026-11-24 directory. Old website assets remain tracked for reversal. Pre-photo baseline commit: 671f4fb. To undo just this update later, revert the photography commit rather than resetting unrelated subsequent work.

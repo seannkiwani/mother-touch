@@ -1323,3 +1323,12 @@ em.type-line .type-ink { color: var(--rose); }
   .policy-section p, .policy-contact { font-size: 16px; }
   .story-aside, .svc-detail-head { position: static; }
 }
+
+/* Keep the client photos' faces and working hands inside responsive crops. */
+.hero-figure .client-hero-photo { object-position: 50% 20%; }
+.svc-figure .client-door-photo { object-position: 50% 40%; }
+.svc-figure .client-office-photo { object-position: 50% 10%; }
+.about-figure .client-team-photo, .story-aside .client-team-photo { object-position: 50% 70%; }
+@media (max-width: 820px) {
+  .hero-figure .client-hero-photo { object-position: 50% 0%; }
+}
